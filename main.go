@@ -71,7 +71,7 @@ func main() {
 		pod := "example-xxxxx"
 
 		//pod_instance type is v1.Pod
-		pod_instance, err = clientset.CoreV1().Pods(namespace).Get(context.TODO(), pod, metav1.GetOptions{})
+		pods, err = clientset.CoreV1().Pods(namespace).Get(context.TODO(), pod, metav1.GetOptions{})
 		if errors.IsNotFound(err) {
 			fmt.Printf("Pod %s in namespace %s not found\n", pod, namespace)
 		} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
@@ -81,7 +81,9 @@ func main() {
 			panic(err.Error())
 		} else {
 			fmt.Printf("Found pod %s in namespace %s\n", pod, namespace)
-			fmt.Printf("pod name: \n", pod_instance.Spec.Name)
+			for _, pod := range pods.Items {
+				fmt.Println("pod name: ", pod.Name)
+			}
 		}
 
 		time.Sleep(10 * time.Second)

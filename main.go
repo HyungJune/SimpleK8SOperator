@@ -81,6 +81,7 @@ func main() {
 		} else {
 			fmt.Printf("Found pod %s in namespace %s\n", pod, namespace)
 			fmt.Println("pod name: ", pod_instance.Name)
+			fmt.Println("pod annotaion: ", pod_instance.GetAnnotations()["test"])
 		}
 
 		time.Sleep(10 * time.Second)

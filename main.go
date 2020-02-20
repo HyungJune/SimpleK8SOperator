@@ -15,7 +15,6 @@ limitations under the License.
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"os"
@@ -58,7 +57,7 @@ func main() {
 		panic(err.Error())
 	}
 	for {
-		pods, err := clientset.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
+		pods, err := clientset.CoreV1().Pods("").List(metav1.ListOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
@@ -71,7 +70,7 @@ func main() {
 		pod := "example-xxxxx"
 
 		//pod_instance type is v1.Pod
-		pods, err = clientset.CoreV1().Pods(namespace).Get(context.TODO(), pod, metav1.GetOptions{})
+		pod_instance, err := clientset.CoreV1().Pods(namespace).Get(pod, metav1.GetOptions{})
 		if errors.IsNotFound(err) {
 			fmt.Printf("Pod %s in namespace %s not found\n", pod, namespace)
 		} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
@@ -81,9 +80,7 @@ func main() {
 			panic(err.Error())
 		} else {
 			fmt.Printf("Found pod %s in namespace %s\n", pod, namespace)
-			for _, pod := range pods.Items {
-				fmt.Println("pod name: ", pod.Name)
-			}
+			fmt.Println("pod name: ", pod_instance.Name)
 		}
 
 		time.Sleep(10 * time.Second)

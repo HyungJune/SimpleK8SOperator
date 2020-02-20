@@ -82,6 +82,7 @@ func main() {
 			fmt.Printf("Found pod %s in namespace %s\n", pod, namespace)
 			fmt.Println("pod name: ", pod_instance.Name)
 			fmt.Println("pod annotaion: ", pod_instance.GetAnnotations()["test"])
+			fmt.Println("pod annotation2:", pod_instance.GetAnnotations()["kubectl.kubernetes.io/last-applied-configuration"])
 		}
 
 		time.Sleep(10 * time.Second)
